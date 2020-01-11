@@ -1,3 +1,4 @@
+$('[data-toggle="tooltip"]').tooltip();
 $(".vote-input-group .vote").click(function() {
   $(this)
     .parent()
