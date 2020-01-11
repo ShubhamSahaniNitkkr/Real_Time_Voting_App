@@ -23,12 +23,11 @@
         cursor: pointer;
       }
       .vote.selected {
-        border: 2px solid grey;
+        border: 2px solid black;
       }
     </style>
   </head>
   <body>
-    <!-- <div class="container-fluid"> -->
     <nav
       class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm p-3 bg-white rounded"
     >
@@ -121,69 +120,26 @@
             </div>
             <div
               class="progress vote cgrid"
-              data-value="VanillaJs"
+              data-value="NodeJs"
               title="Click to vote"
             >
               <div class="progress-bar w-100 bg-warning vote-input">
                 Vanilla Js
               </div>
             </div>
-            <input type="text" id="vote-value" name="vote-value" />
+            <input
+              type="text"
+              id="vote-value"
+              name="vote-value"
+              class="d-none"
+            />
           </form>
         </div>
-        <div class="col-md-6">
-          <div class="progress cgrid">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated"
-              role="progressbar"
-              style="width: 10%"
-              aria-valuenow="10"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              10%
-            </div>
-          </div>
-          <div class="progress cgrid">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated bg-success"
-              role="progressbar"
-              style="width: 25%"
-              aria-valuenow="25"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              25%
-            </div>
-          </div>
-          <div class="progress cgrid">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated bg-info"
-              role="progressbar"
-              style="width: 50%"
-              aria-valuenow="50"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              50%
-            </div>
-          </div>
-          <div class="progress cgrid">
-            <div
-              class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
-              role="progressbar"
-              style="width: 75%"
-              aria-valuenow="75"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              75%
-            </div>
-          </div>
+        <div class="col-md-6 h-100 w-100">
+          <div id="chart-container"></div>
         </div>
       </div>
     </div>
-    <!-- </div> -->
   </body>
   <script
     src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -200,16 +156,7 @@
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"
   ></script>
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/pusher/5.0.2/json2.js"
-    integrity="sha256-STQTmcSAFSfMQPU0I47Fv7KOT4iiGdCU8KnTORB9fyY="
-    crossorigin="anonymous"
-  ></script>
-  <!-- <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.js"
-    integrity="sha256-xWq811jWtpNFuV8sXFtLWGYcNdTdHKe4phSg0svZIt0="
-    crossorigin="anonymous"
-  ></script> -->
+  <script src="https://js.pusher.com/5.0/pusher.min.js"></script>
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
   <script src="./index.js"></script>
-  <script></script>
 </html>
