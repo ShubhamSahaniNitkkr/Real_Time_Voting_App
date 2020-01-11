@@ -91,7 +91,7 @@
     <div class="container">
       <div class="row mt-5">
         <div class="col-md-6">
-          <form class="h-100 vote-input-group">
+          <form class="h-100 vote-input-group" id="vote-form">
             <div
               class="progress vote cgrid"
               data-value="VueJs"
@@ -210,18 +210,6 @@
     integrity="sha256-xWq811jWtpNFuV8sXFtLWGYcNdTdHKe4phSg0svZIt0="
     crossorigin="anonymous"
   ></script> -->
-  <script>
-    $(".vote-input-group .vote").click(function() {
-      $(this)
-        .parent()
-        .find(".vote")
-        .removeClass("selected");
-      $(this).addClass("selected");
-      var val = $(this).attr("data-value");
-      $(this)
-        .parent()
-        .find("input")
-        .val(val);
-    });
-  </script>
+  <script src="./index.js"></script>
+  <script></script>
 </html>
