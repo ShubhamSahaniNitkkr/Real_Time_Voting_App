@@ -22,6 +22,9 @@
       .vote:hover {
         cursor: pointer;
       }
+      .vote.selected {
+        border: 2px solid grey;
+      }
     </style>
   </head>
   <body>
@@ -88,36 +91,44 @@
     <div class="container">
       <div class="row mt-5">
         <div class="col-md-6">
-          <form class="h-100">
-            <div class="progress vote cgrid" title="Click to vote">
-              <div class="progress-bar w-100 radio-input" data-value="VueJs">
+          <form class="h-100 vote-input-group">
+            <div
+              class="progress vote cgrid"
+              data-value="VueJs"
+              title="Click to vote"
+            >
+              <div class="progress-bar w-100 vote-input">
                 Vue Js
               </div>
             </div>
-            <div class="progress vote cgrid" title="Click to vote">
-              <div
-                class="progress-bar w-100 bg-success radio-input"
-                data-value="ReactJs"
-              >
+            <div
+              class="progress vote cgrid"
+              data-value="ReactJs"
+              title="Click to vote"
+            >
+              <div class="progress-bar w-100 bg-success vote-input">
                 React Js
               </div>
             </div>
-            <div class="progress vote cgrid" title="Click to vote">
-              <div
-                class="progress-bar w-100 bg-info radio-input"
-                data-value="AngularJs"
-              >
+            <div
+              class="progress vote cgrid"
+              data-value="AngularJs"
+              title="Click to vote"
+            >
+              <div class="progress-bar w-100 bg-info vote-input">
                 Angular Js
               </div>
             </div>
-            <div class="progress vote cgrid" title="Click to vote">
-              <div
-                class="progress-bar w-100 bg-warning radio-input"
-                data-value="VanillaJs"
-              >
+            <div
+              class="progress vote cgrid"
+              data-value="VanillaJs"
+              title="Click to vote"
+            >
+              <div class="progress-bar w-100 bg-warning vote-input">
                 Vanilla Js
               </div>
             </div>
+            <input type="text" id="vote-value" name="vote-value" />
           </form>
         </div>
         <div class="col-md-6">
@@ -199,4 +210,18 @@
     integrity="sha256-xWq811jWtpNFuV8sXFtLWGYcNdTdHKe4phSg0svZIt0="
     crossorigin="anonymous"
   ></script> -->
+  <script>
+    $(".vote-input-group .vote").click(function() {
+      $(this)
+        .parent()
+        .find(".vote")
+        .removeClass("selected");
+      $(this).addClass("selected");
+      var val = $(this).attr("data-value");
+      $(this)
+        .parent()
+        .find("input")
+        .val(val);
+    });
+  </script>
 </html>
