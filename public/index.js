@@ -17,48 +17,63 @@ $(".vote-input-group .vote").click(function() {
     .catch(err => console.log(err));
 });
 
-let dataPoints = [
-  { label: "VueJs", y: 0 },
-  { label: "AngularJs", y: 0 },
-  { label: "ReactJs", y: 0 },
-  { label: "NodeJs", y: 0 }
-];
+fetch("http://localhost:3000/poll")
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+    const stacks = data.votes;
+    const totalStack = stacks.length;
+    const stackCount = stacks.reduce(
+      (acc, stack) => (
+        (acc[stack.stack] = (acc[stack.stack] || 0) + parseInt(stack.points)),
+        acc
+      ),
+      {}
+    );
 
-const chartDiv = document.querySelector("#chart-container");
-if (chartDiv) {
-  var chart = new CanvasJS.Chart("chart-container", {
-    theme: "light1", // "light2", "dark1", "dark2"
-    animationEnabled: true,
-    title: {
-      text: "Stack Result"
-    },
-    data: [
-      {
-        type: "column",
-        dataPoints: dataPoints
-      }
-    ]
+    let dataPoints = [
+      { label: "VueJs", y: stackCount.VueJs },
+      { label: "AngularJs", y: stackCount.AngularJs },
+      { label: "ReactJs", y: stackCount.ReactJs },
+      { label: "NodeJs", y: stackCount.NodeJs }
+    ];
+
+    const chartDiv = document.querySelector("#chart-container");
+    if (chartDiv) {
+      var chart = new CanvasJS.Chart("chart-container", {
+        theme: "light1", // "light2", "dark1", "dark2"
+        animationEnabled: true,
+        title: {
+          text: "Stack Result"
+        },
+        data: [
+          {
+            type: "column",
+            dataPoints: dataPoints
+          }
+        ]
+      });
+      chart.render();
+
+      // Enable pusher logging - don't include this in production
+      Pusher.logToConsole = false;
+
+      var pusher = new Pusher("1cfa2111b6bc9ec8679d", {
+        cluster: "ap2",
+        forceTLS: true
+      });
+
+      var channel = pusher.subscribe("stack-poll");
+      channel.bind("stack-vote", function(data) {
+        dataPoints = dataPoints.map(x => {
+          if (x.label === data.stack) {
+            x.y += data.points;
+            return x;
+          } else {
+            return x;
+          }
+        });
+        chart.render();
+      });
+    }
   });
-  chart.render();
-
-  // Enable pusher logging - don't include this in production
-  Pusher.logToConsole = false;
-
-  var pusher = new Pusher("1cfa2111b6bc9ec8679d", {
-    cluster: "ap2",
-    forceTLS: true
-  });
-
-  var channel = pusher.subscribe("stack-poll");
-  channel.bind("stack-vote", function(data) {
-    dataPoints = dataPoints.map(x => {
-      if (x.label === data.stack) {
-        x.y += data.points;
-        return x;
-      } else {
-        return x;
-      }
-    });
-    chart.render();
-  });
-}

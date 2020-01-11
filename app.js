@@ -2,8 +2,10 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const connectDB = require("./config/db");
 
 const app = express();
+connectDB();
 const poll = require("./routes/poll");
 
 // set public folder
