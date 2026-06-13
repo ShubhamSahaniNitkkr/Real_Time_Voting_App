@@ -1,29 +1,23 @@
 {
-  "name": "Real_Time_Voting_App",
+  "name": "real-time-voting-app",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Real-time stack voting app with Pusher and MongoDB",
+  "main": "app.js",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "demo": "DEMO_MODE=true node app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ShubhamSahaniNitkkr/Real_Time_Voting_App.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ShubhamSahaniNitkkr/Real_Time_Voting_App/issues"
-  },
-  "homepage": "https://github.com/ShubhamSahaniNitkkr/Real_Time_Voting_App#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.8.6",
-    "pusher": "^3.0.0"
+    "pusher": "^3.0.0",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

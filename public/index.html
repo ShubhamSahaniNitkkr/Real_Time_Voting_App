@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>
-      Pusher Real Time Stack Voting App
-    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pusher Real Time Stack Voting App</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -24,6 +23,17 @@
       }
       .vote.selected {
         border: 2px solid black;
+      }
+
+      @media (max-width: 768px) {
+        .cgrid {
+          height: auto !important;
+        }
+
+        #chart-container {
+          margin-top: 1.5rem;
+          min-height: 300px;
+        }
       }
     </style>
   </head>
@@ -165,6 +175,7 @@
     crossorigin="anonymous"
   ></script>
   <script src="https://js.pusher.com/5.0/pusher.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
   <script src="./index.js"></script>
 </html>

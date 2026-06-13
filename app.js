@@ -2,25 +2,30 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const http = require("http");
+const socketio = require("socket.io");
 const connectDB = require("./config/db");
+const { isDemoMode } = require("./config/demo");
 
 const app = express();
+const server = http.createServer(app);
+const io = socketio(server, { cors: { origin: "*" } });
+app.locals.io = io;
+
 connectDB();
-const poll = require("./routes/poll");
 
-// set public folder
 app.use(express.static(path.join(__dirname, "public")));
-
-// body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-//Enable CORS
 app.use(cors());
 
-app.use("/poll", poll);
+app.use("/poll", require("./routes/poll"));
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-// start server
-app.listen(PORT, () => console.log(`Server Started at Port ${PORT}`));
+server.listen(PORT, () => {
+  console.log(`Server Started at Port ${PORT}`);
+  if (isDemoMode()) {
+    console.log("DEMO_MODE: real-time updates via Socket.IO (no Pusher/MongoDB)");
+  }
+});

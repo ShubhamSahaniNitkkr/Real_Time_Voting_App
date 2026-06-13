@@ -1,20 +1,32 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 const Vote = require("../models/vote");
+const { isDemoMode } = require("../config/demo");
+const mockVotes = require("../mock/votes");
 
-const Pusher = require("pusher");
+let pusher = null;
 
-var pusher = new Pusher({
-  appId: "930139",
-  key: "1cfa2111b6bc9ec8679d",
-  secret: "b4ed3c55f5bf6c7e8178",
-  cluster: "ap2",
-  encrypted: true
+if (!isDemoMode() && process.env.PUSHER_APP_ID) {
+  const Pusher = require("pusher");
+  pusher = new Pusher({
+    appId: process.env.PUSHER_APP_ID,
+    key: process.env.PUSHER_KEY,
+    secret: process.env.PUSHER_SECRET,
+    cluster: process.env.PUSHER_CLUSTER || "ap2",
+    encrypted: true
+  });
+}
+
+router.get("/status", (req, res) => {
+  res.json({ demoMode: isDemoMode(), pusherEnabled: !!pusher });
 });
 
 router.get("/", (req, res) => {
-  Vote.find().then(votes => res.json({ success: true, votes: votes }));
+  if (isDemoMode()) {
+    return res.json({ success: true, votes: mockVotes.getAll(), demoMode: true });
+  }
+
+  Vote.find().then(votes => res.json({ success: true, votes }));
 });
 
 router.post("/", (req, res) => {
@@ -23,15 +35,26 @@ router.post("/", (req, res) => {
     points: 1
   };
 
+  if (isDemoMode()) {
+    const vote = mockVotes.addVote(newVote.stack);
+    if (req.app.locals.io) {
+      req.app.locals.io.emit("stack-vote", {
+        points: parseInt(vote.points, 10),
+        stack: vote.stack
+      });
+    }
+    return res.json({ success: true, message: "Thanks For Voting!" });
+  }
+
   new Vote(newVote).save().then(vote => {
-    pusher.trigger("stack-poll", "stack-vote", {
-      points: parseInt(vote.points),
-      stack: vote.stack
-    });
-    return res.json({
-      success: true,
-      message: "Thanks For Voting!"
-    });
+    if (pusher) {
+      pusher.trigger("stack-poll", "stack-vote", {
+        points: parseInt(vote.points, 10),
+        stack: vote.stack
+      });
+    }
+    return res.json({ success: true, message: "Thanks For Voting!" });
   });
 });
+
 module.exports = router;

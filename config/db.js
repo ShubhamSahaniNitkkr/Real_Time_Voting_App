@@ -1,9 +1,17 @@
 const mongoose = require("mongoose");
+const { enableDemoMode } = require("./demo");
 
 const db =
-  "mongodb+srv://shubhamsahaninitkkr:SHubham7631936181@contactkeeper-2osnv.mongodb.net/test?retryWrites=true&w=majority";
+  process.env.MONGO_URI ||
+  "mongodb://localhost:27017/voting";
 
-const mongoDB = async () => {
+const connectDB = async () => {
+  if (process.env.DEMO_MODE === "true") {
+    enableDemoMode();
+    console.log("DEMO_MODE enabled — using in-memory votes");
+    return;
+  }
+
   try {
     await mongoose.connect(db, {
       useNewUrlParser: true,
@@ -13,9 +21,9 @@ const mongoDB = async () => {
     });
     console.log("mongodb connected");
   } catch (error) {
-    console.log(error.message);
-    process.exit(1);
+    console.log("MongoDB unavailable, falling back to DEMO_MODE");
+    enableDemoMode();
   }
 };
 
-module.exports = mongoDB;
+module.exports = connectDB;
