@@ -2,7 +2,8 @@
 
 > Live poll voting with real-time results via WebSocket and optional Pusher.
 
-![Screenshot](./screenshot.png)
+<img width="2232" height="1169" alt="image" src="https://github.com/user-attachments/assets/988b5968-4fd4-4ad0-a7a6-26fabedd6187" />
+
 > Add `screenshot.png` in project root for preview.
 
 ## Purpose
@@ -31,7 +32,7 @@ npm install && npm run demo
 
 ## Live Demo
 
-[https://shubhamsahaniNitkkr.github.io/Real_Time_Voting_App/](https://shubhamsahaniNitkkr.github.io/Real_Time_Voting_App/)
+https://real-time-voting-app-b06n.onrender.com
 
 
 ## Performance & UI
